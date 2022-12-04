@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Position aware hover</title>
+</head>
+<body>
+<a class="btn-posnawr" href="#">Learn More<span></span></a>
+
+<style>
+    .btn-posnawr {
+        color: #00abec;
+        position: relative;
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        height: auto;
+        max-width: 250px;
+        border-radius: 8px;
+        margin: 1rem auto;
+        font: normal 18px/60px 'proxima-nova', sans-serif;
+        text-align: center;
+        text-decoration: none;
+        border: 2px solid #00abec;
+    }
+
+    .btn-posnawr span {
+        position: absolute;
+        display: block;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background-color: #00abec;
+        -webkit-transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+        transition: width 0.4s ease-in-out, height 0.4s ease-in-out;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        z-index: -1;
+    }
+
+    .btn-posnawr:hover {
+        color: #eee;
+    }
+
+    .btn-posnawr:hover span {
+        width: 225%;
+        height: 562.5px;
+    }
+
+    .btn-posnawr:active {
+        background-color: #00c4ad;
+    }
+</style>
+
+<script>
+  (function () {
+    const buttons = document.querySelectorAll(".btn-posnawr");
+
+    buttons.forEach(button => {
+      ["mouseenter", "mouseout"].forEach(evt => {
+        button.addEventListener(evt, e => {
+          let parentOffset = button.getBoundingClientRect(),
+              relX = e.pageX - parentOffset.left,
+              relY = e.pageY - parentOffset.top;
+
+          const span = button.getElementsByTagName("span");
+
+          span[0].style.top = relY + "px";
+          span[0].style.left = relX + "px";
+        });
+      });
+    });
+  })();
+  // originally forked from https://codepen.io/kkick/pen/oWZMov
+</script>
+
+</body>
+</html>
